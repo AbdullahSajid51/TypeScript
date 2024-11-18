@@ -27,6 +27,85 @@ console.log(myAge.toLowerCase()); // Output: "don't know"
 // toLowerCase() can be called because myAge is known to be a string at this point
 
 // // --------------------------------------------------
+const userInput = (value: string | number): string | number => {
+  if (typeof value === "string") {
+    return value.toLocaleUpperCase();
+  } else if (typeof value === "number") {
+    return value * 2;
+  } else {
+    throw new Error("Invalid Data");
+  }
+};
+console.log(userInput("ali"));
+
+// // --------------------------------------------------
+// Doing the same above code By Using Ternary Operators:-
+const userInput = (value: string | number): string | number => 
+  typeof value === "string" 
+    ? value.toUpperCase() 
+    : typeof value === "number" 
+      ? value * 2 
+      : (() => { throw new Error("Invalid Data"); })();
+
+// Test Cases
+console.log(userInput("musa")); 
+console.log(userInput(6));    
+
+// // --------------------------------------------------
+//todo HOMEWORK TIME By Thapa Technical:
+
+//? We want to create a function that formats the value passed to it in a specific way based on its type:
+//? 1. If the input is a number, it should add a dollar sign and format it with two decimal places.
+//? 2. If the input is a boolean, it should return "Yes" for true and "No" for false.
+//? 3. If the input is a string, it should capitalize the first letter.
+const formatValue = (value: string | boolean | number): string => {
+  if (typeof value === "number") {
+    return `$${value.toFixed(2)}`;
+    // return "$" + value.toFixed(2)
+  } else if (typeof value === "boolean") {
+    return value ? "Yes" : "No";
+  } else {
+    return value[0].toUpperCase() + value.slice(1);
+  }
+};
+
+// Test Cases
+console.log(formatValue(123.456));  // Output: "$123.46"
+console.log(formatValue(true));     // Output: "Yes"
+console.log(formatValue("thapa"));  // Output: "Thapa"
+// // --------------------------------------------------
+const capitalizeFirstLetter = (value: string): string => {
+  return value[0].toUpperCase() + value.slice(1);
+};
+
+console.log(capitalizeFirstLetter("hello")); // Output: "Hello"
+console.log(capitalizeFirstLetter("world")); // Output: "World"
+
+// // --------------------------------------------------
+
+
+type Person = {
+  name: string;
+  age: number;
+};
+
+type Employee = {
+  emp_id: number;
+  department: string;
+};
+
+type EmployeeDetails = Person | Employee
+
+const employee: EmployeeDetails = {
+  name: "Musa",
+  age: 23,
+  // emp_id: 562,
+  // department: "It"
+}
+
+
+// // --------------------------------------------------
+
 
 // // UNION TYPES:-
 // A union type allows a variable to be one of several types. It's defined using the | (pipe) operator.
@@ -164,3 +243,76 @@ setColor("green");
 // // Type Aliases: Create new names for types to simplify and improve readability.
 
 // // These features enhance TypeScript's type system, making it more expressive and flexible for handling various type-related scenarios.
+// ---------------------------------------------------------------------------------------------------------------------------------------------
+
+// // INTERSECTION (&):- 
+type Person = {
+  name: string;
+  age: number;
+};
+
+type Employee = {
+  emp_id: number;
+  department: string;
+};
+
+type EmployeeDetails = Person & Employee
+
+const employee: EmployeeDetails = {
+  name: "Musa",
+  age: 23,
+  // emp_id: 562,
+  // department: "It"
+}
+// -------------------------------------------------
+//todo Homework Question By Thapa Technical: Combine User and Account Data
+
+//todo You are building a user management system, and you have two TypeScript types:
+
+//? User: Represents basic user information, with the following properties:
+//? id (number): The user's unique identifier.
+//? name (string): The user's name.
+//? email (string): The user's email address.
+
+//? Account: Contains details about the user's account, with the following properties:
+//? accountId (number): The account's unique identifier.
+//? accountType (string): The type of the account (e.g., "Savings," "Checking," etc.).
+//? balance (number): The account balance.
+
+/* Your task is to create a function called combineUserAndAccount that takes a User
+   object and an Account object as arguments and returns a new object representing 
+   the combined information of the user and their account. */
+
+// Ensure that the resulting object contains all the properties from both User and Account types.
+
+type User = {
+  name: string;
+  email: string;
+  id: number;
+};
+
+type Account = {
+  accountId: number;
+  accountType: string;
+  balance: number;
+};
+
+const user: User = {
+  name: "Musa Khan",
+  email: "musakhan51@gmail.com",
+  id: 7865,
+};
+const account: Account = {
+  accountId: 12345,
+  accountType: "Savings",
+  balance: 20000000,
+};
+const combineUserAccount = (user: User, account: Account) => {
+  return {
+    ...user, // Spread operator to include all properties from the User object
+    ...account, // Spread operator to include all properties from the Account object
+  };
+};
+const combineData: User & Account = combineUserAccount(user, account);
+console.log(combineData);
+// ---------------------------------------------------------------------------------------------------------------------------------------------
